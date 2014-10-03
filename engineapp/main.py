@@ -30,10 +30,10 @@ def handle_upload():
     parsed_header = parse_options_header(header)
     blob_key = parsed_header[1]['blob-key']
     data_id = fileprocessor.save_file(blob_key)
-    address = request.host_url + "serve/" + data_id 
+    address = request.host_url + data_id 
     return "<a href=\"" + address + "\">" + address + "</a>"
 
-@app.route('/serve/<data_key>')
+@app.route('/<data_key>')
 def view_file(data_key):
     blob_info = fileprocessor.get_file(data_key)
     if not blob_info:
