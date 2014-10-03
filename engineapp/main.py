@@ -37,6 +37,7 @@ def view_file(blobstore_key):
     blob_info = blobstore.get(blobstore_key)
     response = make_response(blob_info.open().read())
     response.headers['Content-Type'] = blob_info.content_type
+    response.headers['Content-Disposition'] = "filename=" + blob_info.filename
     return response
 
 
