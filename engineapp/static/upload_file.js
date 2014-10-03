@@ -1,24 +1,33 @@
 function handleSubmit() {
+    if($('#fileupload').val() == '') {
+        var downloadMessage = document.getElementById( "file-link" );
+        downloadMessage.style.display = "block";
+        downloadMessage.innerHTML = "No file.";
+        return false;
+    }
+
     var button = document.getElementById( "submit-button" );
     button.innerHTML = "Processing...";
     button.disabled = true;
-    document.getElementById( "shortlink-link" ).style.display = "none";
+    document.getElementById( "file-link" ).style.display = "none";
 	
-	createShortlink();
+	uploadFile();
 }
 
-function createShortlink() {
+function uploadFile() {
     $.ajax( {
-        url: "generate_link",
+        url: $('#blobstore-url').data("url"),
         type: "POST",
-        data: $("form[name='shortlink-form']").serialize(),
+        data: new FormData( $("form[name='fileupload-form']").get(0) ),
+        processData: false,
+        contentType: false,
         success: function( data ) {
-            var downloadMessage = document.getElementById( "shortlink-link" );
+            var downloadMessage = document.getElementById( "file-link" );
             downloadMessage.classList.toggle( "error", false );
             downloadMessage.innerHTML = data;
         },
         error: function( jqXHR, textStatus, errorThrown ) {
-            var downloadMessage = document.getElementById( "shortlink-link" );
+            var downloadmessage = document.getelementbyid( "file-link" );
             if ( errorThrown == "Bad Request" ) {
                 downloadMessage.innerHTML = jqXHR.responseText;
             } else {
@@ -27,7 +36,7 @@ function createShortlink() {
             downloadMessage.classList.toggle( "error", true );
         },
         complete: function( data ) {
-            var downloadMessage = document.getElementById( "shortlink-link" );
+            var downloadMessage = document.getElementById( "file-link" );
             downloadMessage.style.display = "block";
             var button = document.getElementById( "submit-button" );
             button.innerHTML = "Start";

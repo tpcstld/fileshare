@@ -1,21 +1,21 @@
 <!doctype html>
 <html lang="en">
 	<head>
-		<title>Link Shortener</title>
+		<title>FileShare</title>
 		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
 		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='foundation.min.css') }}">
 	</head>
 	<body>
 		<div class="row">
 			<div id="title-row" class="small-12 columns text-center">
-				<h1>Link Shortener</h1>
+				<h1>FileShare</h1>
 			</div>
 		</div>
 	
-	    <form name="shortlink-form">
-			<div id="url-input" class="row">
+	    <form name="fileupload-form">
+			<div id="file-input" class="row">
 				<div class="small-12 small-centered medium-8 columns">
-					<input placeholder="Insert URL" type="text" name="url" autofocus>
+                    <input id="fileupload" name="filedata" type="file"></input>
 				</div>
 			</div>
 			<div class="row">
@@ -26,21 +26,13 @@
 		</form>
 		<div class="row">
 		    <div class="small-12 small-centered medium-8 columns">
-				<div id="shortlink-link" class="callout panel" style="display:none;"></div>
+				<div id="file-link" class="callout panel" style="display:none;"></div>
 			</div>
 		</div>
 		
+        <div id="blobstore-url" data-url="{{ upload_url }}"></div>
 		<script src="{{ url_for('static', filename='jquery-2.1.1.min.js') }}"></script>
 		<script src="{{ url_for('static', filename='foundation.min.js') }}"></script>
-		<script src="{{ url_for('static', filename='create_link.js') }}"></script>
-		<script>
-			(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-			(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-			m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-			})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-			ga('create', 'UA-31547417-4', 'auto');
-			ga('send', 'pageview');
-		</script>
+		<script src="{{ url_for('static', filename='upload_file.js') }}"></script>
 	</body>
 </html>

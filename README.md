@@ -1,6 +1,6 @@
-Shortlinker
+FileShare
 ===========
 
-Generating short urls for bigger links.
+Sharing small files quickly.
 
-You can find a version of the website here: http://ls.tpcstld.me
+You can find a version of the website here: http://fileshare.tpcstld.me
