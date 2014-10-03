@@ -41,6 +41,7 @@ function uploadFile() {
             var button = document.getElementById( "submit-button" );
             button.innerHTML = "Start";
             button.disabled = false;
+            $('#fileupload').val(null);
         }
     } );
 }
