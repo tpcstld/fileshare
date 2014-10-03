@@ -27,7 +27,7 @@ function uploadFile() {
             downloadMessage.innerHTML = data;
         },
         error: function( jqXHR, textStatus, errorThrown ) {
-            var downloadmessage = document.getelementbyid( "file-link" );
+            var downloadMessage = document.getElementById( "file-link" );
             if ( errorThrown == "Bad Request" ) {
                 downloadMessage.innerHTML = jqXHR.responseText;
             } else {

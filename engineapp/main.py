@@ -4,7 +4,7 @@ from flask import request
 from flask import redirect
 from flask import make_response
 from werkzeug.http import parse_options_header
-import fileprocesser
+import fileprocessor
 import logging
 from google.appengine.ext import blobstore
 
@@ -29,19 +29,19 @@ def handle_upload():
     header = filedata.headers['Content-Type']
     parsed_header = parse_options_header(header)
     blob_key = parsed_header[1]['blob-key']
-    address = request.host_url + "serve/" + blob_key
+    data_id = fileprocessor.save_file(blob_key)
+    address = request.host_url + "serve/" + data_id 
     return "<a href=\"" + address + "\">" + address + "</a>"
 
-@app.route('/serve/<blobstore_key>')
-def view_file(blobstore_key):
-    blob_info = blobstore.get(blobstore_key)
+@app.route('/serve/<data_key>')
+def view_file(data_key):
+    blob_info = fileprocessor.get_file(data_key)
     if not blob_info:
         return "The file at this url does not exist or has expired.", 404
     response = make_response(blob_info.open().read())
     response.headers['Content-Type'] = blob_info.content_type
     response.headers['Content-Disposition'] = "filename=" + blob_info.filename
     return response
-
 
 @app.errorhandler(404)
 def page_not_found(e):
