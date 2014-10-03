@@ -35,6 +35,8 @@ def handle_upload():
 @app.route('/serve/<blobstore_key>')
 def view_file(blobstore_key):
     blob_info = blobstore.get(blobstore_key)
+    if not blob_info:
+        return "The file at this url does not exist or has expired.", 404
     response = make_response(blob_info.open().read())
     response.headers['Content-Type'] = blob_info.content_type
     response.headers['Content-Disposition'] = "filename=" + blob_info.filename
