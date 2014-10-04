@@ -45,3 +45,21 @@ function uploadFile() {
         }
     } );
 }
+
+$('#fileupload').on( 'dragenter', function(event) {
+    if (event.target === this) {
+        $('#fileupload').addClass('dragdrop');
+    }
+});
+
+$('#fileupload').on( 'dragleave', function(event) {
+    if (event.target === this) {
+        $('#fileupload').removeClass('dragdrop');
+    }
+});
+
+$('#fileupload').on( 'drop', function(event) {
+    if (event.target === this) {
+        $('#fileupload').removeClass('dragdrop');
+    }
+});
