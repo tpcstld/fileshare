@@ -7,7 +7,7 @@ function handleSubmit() {
     }
 
     var button = document.getElementById( "submit-button" );
-    button.innerHTML = "Processing...";
+    button.innerHTML = "Uploading...";
     button.disabled = true;
     document.getElementById( "file-link" ).style.display = "none";
 	

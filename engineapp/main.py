@@ -2,7 +2,7 @@ from flask import Flask
 from flask import render_template
 from flask import request
 from flask import redirect
-from flask import make_response
+from flask import Response
 from werkzeug.http import parse_options_header
 import fileprocessor
 import logging
@@ -38,7 +38,8 @@ def view_file(data_key):
     blob_info = fileprocessor.get_file(data_key)
     if not blob_info:
         return "The file at this url does not exist or has expired.", 404
-    response = make_response(blob_info.open().read())
+    response = Response()
+    response.headers['X-AppEngine-BlobKey'] = blob_info.key()
     response.headers['Content-Type'] = blob_info.content_type
     response.headers['Content-Disposition'] = "filename=" + blob_info.filename
     return response
