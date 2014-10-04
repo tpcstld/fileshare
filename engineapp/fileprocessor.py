@@ -8,11 +8,11 @@ ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif',
                         'docx', 'doc'])
 
 class FileKey(ndb.Model):
-    blob_key = ndb.StringProperty()
+    blob_key = ndb.BlobKeyProperty()
     last_seen = ndb.DateTimeProperty(auto_now=True)
 
 def save_file(key):
-    file_key = FileKey(blob_key=key)
+    file_key = FileKey(blob_key=blobstore.BlobKey(key))
     data_key = file_key.put()
     return base58.encode(data_key.integer_id())
 
@@ -27,4 +27,4 @@ def get_file(data_id):
         return None
 
     file_key.put()
-    return blobstore.get(file_key.blob_key)
+    return blobstore.BlobInfo(file_key.blob_key) 

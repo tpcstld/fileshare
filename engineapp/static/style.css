@@ -1,3 +1,9 @@
 #title-row {
 	margin-top: 50px;
 }
+
+#fileupload {
+    height: 100px;
+    border-width: 1px;
+    border-style: groove;
+}
