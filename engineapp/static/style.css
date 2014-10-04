@@ -4,6 +4,30 @@
 
 #fileupload {
     height: 100px;
+    -webkit-appearance: none;
+    -webkit-border-radius: 0px;
+    background-color: white;
+    font-family: inherit;
+    border-style: solid;
     border-width: 1px;
-    border-style: groove;
+    border-color: #cccccc;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+    color: rgba(0, 0, 0, 0.75);
+    display: block;
+    font-size: 0.77778rem;
+    margin: 0 0 0.88889rem 0;
+    padding: 0.44444rem;
+    width: 100%;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    transition: box-shadow 0.45s, border-color 0.45s ease-in-out;
+}
+
+#fileupload:hover {
+    cursor: pointer;
+    -moz-box-shadow: 0 0 5px rgba(0,0,0,0.5);
+    -webkit-box-shadow: 0 0 5px rgba(0,0,0,0.5);
+    box-shadow: 0 0 5px rgba(0,0,0,0.5);
+    background-color: rgb(242, 242, 242);
 }
