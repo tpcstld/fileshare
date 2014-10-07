@@ -1,16 +1,21 @@
 function handleSubmit() {
+    // Check if there's no file.
     if($('#fileupload').val() == '') {
         return displayError( "No file." );
     }
 
+    // Disable the submit button 
     var button = document.getElementById( "submit-button" );
     button.innerHTML = "Uploading...";
     button.disabled = true;
+
+    // Hide the result callout panel
     document.getElementById( "file-link" ).style.display = "none";
 	
 	uploadFile();
 }
 
+// Displays the error message in the callout panel
 function displayError( message ) {
     var downloadMessage = document.getElementById( "file-link" );
     downloadMessage.style.display = "block";
@@ -34,8 +39,10 @@ function uploadFile() {
         error: function( jqXHR, textStatus, errorThrown ) {
             if ( errorThrown == "Bad Request" ) {
                 return displayError( jqXHR.responseText );
+            } else if( errorThrown == "Not Found" ) {
+                return displayError( "Error uploading file. Please refresh the page." );
             } else {
-                return displayError( "<b>An internal error has occurred!</b>" );
+                return displayError( "An internal error has occurred! Please contact the creator of this site." );
             }
         },
         complete: function( data ) {
