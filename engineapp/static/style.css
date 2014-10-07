@@ -38,3 +38,8 @@
     box-shadow: 0 0 5px rgba(0,0,0,0.5);
     background-color: rgb(242, 242, 242);
 }
+
+#file-link.error {
+    background-color: rgb( 255, 234, 234 );
+    border: 1px solid rgb( 255, 138, 138 );
+}
