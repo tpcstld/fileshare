@@ -10,7 +10,7 @@ from google.appengine.ext import blobstore
 
 app = Flask(__name__)
 app.debug = True
-app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
+MAX_FILE_SIZE = 16 * 1024 * 1024
 
 # Note: We don't need to call run() since our application is embedded within
 # the App Engine WSGI application server.
@@ -23,13 +23,29 @@ def upload_file():
 
 @app.route('/upload', methods=['POST'])
 def handle_upload():
+    # check if a file exists
+    # return an error it it doesn't exist
     filedata = request.files['filedata']
     if not filedata:
-        return "No file."
+        return "No file.", 400
+
+    # extract the blob-key from the header
     header = filedata.headers['Content-Type']
     parsed_header = parse_options_header(header)
     blob_key = parsed_header[1]['blob-key']
+    
+    # check for the file size
+    # delete the blob and return an error if it's too big.
+    blob = fileprocessor.get_blob(blob_key)
+    if blob.size > MAX_FILE_SIZE:
+        fileprocessor.delete_file(blob_key)
+        return "Upload must be smaller than 16MB.", 400
+
+    # save the blob key in a datastore for ordering
+    # save_file returns the base58 datastore key
     data_id = fileprocessor.save_file(blob_key)
+
+    # return a formatted url of the location of the file
     address = request.host_url + data_id 
     return "<a href=\"" + address + "\">" + address + "</a>"
 

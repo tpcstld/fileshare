@@ -16,6 +16,13 @@ def save_file(key):
     data_key = file_key.put()
     return base58.encode(data_key.integer_id())
 
+def get_blob(blob_key):
+    return blobstore.BlobInfo.get(blob_key)   
+
+def delete_file(blob_key):
+    blob = get_blob(blob_key)
+    blob.delete()
+
 def get_file(data_id):
     try:
         key = base58.decode(data_id)
@@ -27,4 +34,4 @@ def get_file(data_id):
         return None
 
     file_key.put()
-    return blobstore.BlobInfo(file_key.blob_key) 
+    return blobstore.BlobInfo(file_key.blob_key)   
