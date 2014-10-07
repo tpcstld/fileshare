@@ -1,9 +1,6 @@
 function handleSubmit() {
     if($('#fileupload').val() == '') {
-        var downloadMessage = document.getElementById( "file-link" );
-        downloadMessage.style.display = "block";
-        downloadMessage.innerHTML = "No file.";
-        return false;
+        return displayError( "No file." );
     }
 
     var button = document.getElementById( "submit-button" );
@@ -12,6 +9,13 @@ function handleSubmit() {
     document.getElementById( "file-link" ).style.display = "none";
 	
 	uploadFile();
+}
+
+function displayError( message ) {
+    var downloadMessage = document.getElementById( "file-link" );
+    downloadMessage.style.display = "block";
+    downloadMessage.innerHTML = message;
+    return false;
 }
 
 function uploadFile() {
@@ -62,4 +66,9 @@ $('#fileupload').on( 'drop', function(event) {
     if (event.target === this) {
         $('#fileupload').removeClass('dragdrop');
     }
+});
+
+$('#submit-button').click( function(evt) {
+    evt.preventDefault();
+    handleSubmit();
 });
