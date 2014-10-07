@@ -1,9 +1,7 @@
 function handleSubmit() {
-    // Check if there's no file.
-    if($('#fileupload').val() == '') {
-        return displayError( "No file." );
+    if ( !validateFile() ) {
+        return false;
     }
-
     // Disable the submit button 
     var button = document.getElementById( "submit-button" );
     button.innerHTML = "Uploading...";
@@ -22,6 +20,27 @@ function displayError( message ) {
     downloadMessage.innerHTML = message;
     downloadMessage.classList.toggle( "error", true );
     return false;
+}
+
+function validateFile() {
+    // Check if there's no file.
+    if($('#fileupload').val() == '') {
+        return displayError( "No file." );
+    }
+    // Check if the file is too big.
+    if ( !checkFileSize() ) {
+        return displayError( "Upload must be smaller than 16MB." );
+    }
+
+    return true;
+}
+
+function checkFileSize() {
+    var size = $('#fileupload')[0].files[0].size;
+    if( size > 16 * 1024 * 1024 ) {
+        return false;
+    }
+    return true;
 }
 
 function uploadFile() {
@@ -49,7 +68,7 @@ function uploadFile() {
             var downloadMessage = document.getElementById( "file-link" );
             downloadMessage.style.display = "block";
             var button = document.getElementById( "submit-button" );
-            button.innerHTML = "Start";
+            button.innerHTML = "Upload";
             button.disabled = false;
             $('#fileupload').val(null);
         }
