@@ -15,6 +15,7 @@ function displayError( message ) {
     var downloadMessage = document.getElementById( "file-link" );
     downloadMessage.style.display = "block";
     downloadMessage.innerHTML = message;
+    downloadMessage.classList.toggle( "error", true );
     return false;
 }
 
@@ -31,13 +32,11 @@ function uploadFile() {
             downloadMessage.innerHTML = data;
         },
         error: function( jqXHR, textStatus, errorThrown ) {
-            var downloadMessage = document.getElementById( "file-link" );
             if ( errorThrown == "Bad Request" ) {
-                downloadMessage.innerHTML = jqXHR.responseText;
+                return displayError( jqXHR.responseText );
             } else {
-                downloadMessage.innerHTML = "<b>An internal error has occured!</b>"
+                return displayError( "<b>An internal error has occurred!</b>" );
             }
-            downloadMessage.classList.toggle( "error", true );
         },
         complete: function( data ) {
             var downloadMessage = document.getElementById( "file-link" );
