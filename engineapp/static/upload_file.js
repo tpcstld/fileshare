@@ -6,6 +6,7 @@ function handleSubmit() {
     var button = document.getElementById( "submit-button" );
     button.innerHTML = "Uploading...";
     button.disabled = true;
+    toggleLoadingBar( true );
     // Hide the result callout panel
     document.getElementById( "file-link" ).style.display = "none";
     return true;
@@ -20,7 +21,17 @@ function displayMessage( message, isError ) {
     var button = document.getElementById( "submit-button" );
     button.innerHTML = "Upload";
     button.disabled = false;
+    toggleLoadingBar( false );
     return !isError;
+}
+
+function toggleLoadingBar( show ) {
+    $('#progress-meter').css('width','0%');
+    if ( show ) {
+        $('#progress-bar').css('display', 'block');
+    } else {
+        $('#progress-bar').css('display', 'none');
+    }
 }
 
 function validateFile() {
@@ -73,6 +84,9 @@ var options = {
         } else {
             return displayMessage( "An internal error has occurred! Please contact the creator of this site.", true );
         }
+    },
+    uploadProgress: function( evt, position, total, percentComplete ) {
+        $('#progress-meter').css( "width", percentComplete + "%" );
     },
     success: function( data ) {
         displayMessage( data, false );
