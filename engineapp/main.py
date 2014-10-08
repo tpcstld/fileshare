@@ -57,6 +57,7 @@ def view_file(data_key):
     response = Response()
     response.headers['X-AppEngine-BlobKey'] = blob_info.key()
     response.headers['Content-Type'] = blob_info.content_type
+    response.headers['Content-Length'] = blob_info.size
     response.headers['Content-Disposition'] = "filename=" + blob_info.filename
     return response
 
