@@ -4,9 +4,6 @@ import base58
 import mimetypes
 from google.appengine.ext import blobstore
 
-ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif',
-                        'docx', 'doc'])
-
 class FileKey(ndb.Model):
     blob_key = ndb.BlobKeyProperty()
     last_seen = ndb.DateTimeProperty(auto_now=True)

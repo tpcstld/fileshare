@@ -4,9 +4,10 @@ from flask import request
 from flask import redirect
 from flask import Response
 from werkzeug.http import parse_options_header
+from google.appengine.ext import blobstore
 import fileprocessor
 import logging
-from google.appengine.ext import blobstore
+import headersetter
 
 app = Flask(__name__)
 app.debug = True
@@ -49,13 +50,6 @@ def handle_upload():
     address = request.host_url + data_id 
     return "<a href=\"" + address + "\">" + address + "</a>"
 
-def set_content_disposition(blob_info):
-    content_disposition = "filename=" + blob_info.filename
-    # allowing only pdfs to be displayed in browser
-    if blob_info.content_type != "application/pdf":
-        content_disposition = "attachment; " + content_disposition
-    return content_disposition
-
 @app.route('/<data_key>')
 def view_file(data_key):
     blob_info = fileprocessor.get_file(data_key)
@@ -65,7 +59,7 @@ def view_file(data_key):
     response.headers['X-AppEngine-BlobKey'] = blob_info.key()
     response.headers['Content-Type'] = blob_info.content_type
     response.headers['Content-Length'] = blob_info.size
-    response.headers['Content-Disposition'] = set_content_disposition(blob_info)
+    response.headers['Content-Disposition'] = headersetter.set_content_disposition(blob_info)
     return response
 
 @app.errorhandler(404)
