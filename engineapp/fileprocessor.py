@@ -6,6 +6,7 @@ from google.appengine.ext import blobstore
 
 class FileKey(ndb.Model):
     blob_key = ndb.BlobKeyProperty()
+    created_time = ndb.DateTimeProperty(auto_now_add=True)
     last_seen = ndb.DateTimeProperty(auto_now=True)
 
 def save_file(key):

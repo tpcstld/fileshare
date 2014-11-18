@@ -8,6 +8,7 @@ from google.appengine.ext import blobstore
 import fileprocessor
 import logging
 import headersetter
+import json
 
 app = Flask(__name__)
 app.debug = True
@@ -28,7 +29,7 @@ def handle_upload():
     # return an error it it doesn't exist
     filedata = request.files['filedata']
     if not filedata:
-        return "No file.", 400
+        return json.dumps({'message' : "No file."}), 400
 
     # extract the blob-key from the header
     header = filedata.headers['Content-Type']
@@ -40,7 +41,7 @@ def handle_upload():
     blob = fileprocessor.get_blob(blob_key)
     if blob.size > MAX_FILE_SIZE:
         fileprocessor.delete_file(blob_key)
-        return "Upload must be smaller than 16MB.", 400
+        return json.dumps({'message' : "Upload must be smaller than 16MB."}), 400
 
     # save the blob key in a datastore for ordering
     # save_file returns the base58 datastore key
@@ -48,7 +49,11 @@ def handle_upload():
 
     # return a formatted url of the location of the file
     address = request.host_url + data_id 
-    return "<a href=\"" + address + "\">" + address + "</a>"
+    return json.dumps({'data_id': data_id})
+
+@app.route('/history')
+def show_history():
+    return "Hello World!"    
 
 @app.route('/<data_key>')
 def view_file(data_key):

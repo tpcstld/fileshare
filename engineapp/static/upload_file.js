@@ -78,7 +78,8 @@ var options = {
     resetForm: true,
     error: function( jqXHR, textStatus, errorThrown ) {
         if ( errorThrown == "Bad Request" ) {
-            return displayMessage( jqXHR.responseText, true );
+            var json = JSON.parse(jqXHR.responseText);
+            return displayMessage( json['message'], true );
         } else if( errorThrown == "Not Found" ) {
             return displayMessage( "Error uploading file. Please refresh the page.", true );
         } else {
@@ -89,7 +90,9 @@ var options = {
         $('#progress-meter').css( "width", percentComplete + "%" );
     },
     success: function( data ) {
-        displayMessage( data, false );
+        var json = JSON.parse( data );
+        var url = window.location.origin + "/" + json['data_id'];
+        displayMessage( "<a href=\"" + url + "\">" + url + "</a>", false );
     },
 };
 
