@@ -6,6 +6,7 @@ from flask import Response
 from werkzeug.http import parse_options_header
 from google.appengine.ext import blobstore
 import fileprocessor
+import historyprocessor
 import logging
 import headersetter
 import json
@@ -53,7 +54,9 @@ def handle_upload():
 
 @app.route('/history')
 def show_history():
-    return "Hello World!"    
+    upload_items = historyprocessor.get_last_uploaded_files(15)
+    viewed_items = historyprocessor.get_last_viewed_files(20)
+    return render_template('show_history.html', upload_items=upload_items, viewed_items=viewed_items)
 
 @app.route('/<data_key>')
 def view_file(data_key):
