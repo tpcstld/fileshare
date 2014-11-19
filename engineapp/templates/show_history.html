@@ -14,15 +14,15 @@
                         <tr>
                             <th>File Name</th>
                             <th>Last Viewed</th>
-                            <th>Last Added</th>
+                            <th>Creation Date</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for item in upload_items %}
                         <tr>
-                            <td>htht</td>
-                            <td>htht1</td>
-                            <td>htht2</td>
+                            <td><a href="{{ item.url }}">{{ item.filename }}</a></td>
+                            <td><time class="timeago" datetime="{{ item.last_seen }}">{{ item.last_seen }}</time></td>
+                            <td><time class="timeago" datetime="{{ item.created_time }}">{{ item.created_time }}</time></td>
                         </tr>
                         {% endfor %}
                     </tbody>
@@ -35,20 +35,25 @@
                         <tr>
                             <th>File Name</th>
                             <th>Last Viewed</th>
-                            <th>Last Added</th>
+                            <th>Creation Date</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for item in viewed_items %}
                         <tr>
-                            <td>htht</td>
-                            <td>htht1</td>
-                            <td>htht2</td>
+                            <td><a href="{{ item.url }}">{{ item.filename }}</a></td>
+                            <td><time class="timeago" datetime="{{ item.last_seen }}">{{ item.last_seen }}</time></td>
+                            <td><time class="timeago" datetime="{{ item.created_time }}">{{ item.created_time }}</time></td>
                         </tr>
                         {% endfor %}
                     </tbody>
                 </table>
             </div>
         </div>
+        <script src="{{ url_for('static', filename='jquery-2.1.1.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='foundation.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='jquery.timeago.js') }}"></script>
+        <script>$(document).foundation();</script>
+        <script>$(document).ready(function(){$("time.timeago").timeago();});</script>
     </body>
 </html>

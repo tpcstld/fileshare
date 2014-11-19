@@ -33,3 +33,10 @@ def get_file(data_id):
 
     file_key.put()
     return blobstore.BlobInfo(file_key.blob_key)   
+
+def get_last_uploaded_files(count):
+    return FileKey.query().order(-FileKey.created_time).fetch(count)
+
+
+def get_last_viewed_files(count):
+    return FileKey.query().order(-FileKey.last_seen).fetch(count)

@@ -6,7 +6,7 @@ from flask import Response
 from werkzeug.http import parse_options_header
 from google.appengine.ext import blobstore
 import fileprocessor
-import historyprocessor
+import base58
 import logging
 import headersetter
 import json
@@ -22,7 +22,6 @@ MAX_FILE_SIZE = 16 * 1024 * 1024
 def upload_file():
     upload_url = blobstore.create_upload_url('/upload')
     return render_template('upload_file.html', upload_url=upload_url)
-
 
 @app.route('/upload', methods=['POST'])
 def handle_upload():
@@ -52,10 +51,21 @@ def handle_upload():
     address = request.host_url + data_id 
     return json.dumps({'data_id': data_id})
 
+def generate_history(file_keys):
+    output = []
+    for file_key in file_keys:
+        blob = blobstore.BlobInfo(file_key.blob_key)
+        output.append({
+            'url': base58.encode(file_key.key.id()),
+            'filename' : blob.filename,
+            'last_seen' : file_key.last_seen.isoformat() + "Z",
+            'created_time' : file_key.created_time.isoformat() + "Z"
+        })
+    return output
 @app.route('/history')
 def show_history():
-    upload_items = historyprocessor.get_last_uploaded_files(15)
-    viewed_items = historyprocessor.get_last_viewed_files(20)
+    upload_items = generate_history(fileprocessor.get_last_uploaded_files(10))
+    viewed_items = generate_history(fileprocessor.get_last_viewed_files(10))
     return render_template('show_history.html', upload_items=upload_items, viewed_items=viewed_items)
 
 @app.route('/<data_key>')
