@@ -20,7 +20,7 @@
                     <tbody>
                         {% for item in upload_items %}
                         <tr>
-                            <td><a href="{{ item.url }}">{{ item.filename }}</a></td>
+                            <td><a style="word-wrap: break-word;" href="{{ item.url }}">{{ item.filename }}</a></td>
                             <td><time class="timeago" datetime="{{ item.last_seen }}">{{ item.last_seen }}</time></td>
                             <td><time class="timeago" datetime="{{ item.created_time }}">{{ item.created_time }}</time></td>
                         </tr>
@@ -41,7 +41,7 @@
                     <tbody>
                         {% for item in viewed_items %}
                         <tr>
-                            <td><a href="{{ item.url }}">{{ item.filename }}</a></td>
+                            <td><a style="word-wrap: break-word;" href="{{ item.url }}">{{ item.filename }}</a></td>
                             <td><time class="timeago" datetime="{{ item.last_seen }}">{{ item.last_seen }}</time></td>
                             <td><time class="timeago" datetime="{{ item.created_time }}">{{ item.created_time }}</time></td>
                         </tr>
