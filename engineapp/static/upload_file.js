@@ -49,7 +49,7 @@ function validateFile() {
 
 function checkFileSize() {
     var size = $('#fileupload')[0].files[0].size;
-    if( size > 16 * 1024 * 1024 ) {
+    if( size > 30 * 1024 * 1024 ) {
         return false;
     }
     return true;

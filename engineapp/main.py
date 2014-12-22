@@ -13,7 +13,7 @@ import json
 
 app = Flask(__name__)
 app.debug = True
-MAX_FILE_SIZE = 16 * 1024 * 1024
+MAX_FILE_SIZE = 30 * 1024 * 1024
 
 # Note: We don't need to call run() since our application is embedded within
 # the App Engine WSGI application server.
@@ -41,7 +41,7 @@ def handle_upload():
     blob = fileprocessor.get_blob(blob_key)
     if blob.size > MAX_FILE_SIZE:
         fileprocessor.delete_file(blob_key)
-        return json.dumps({'message' : "Upload must be smaller than 16MB."}), 400
+        return json.dumps({'message' : "Upload must be smaller than 30MB."}), 400
 
     # save the blob key in a datastore for ordering
     # save_file returns the base58 datastore key
@@ -68,6 +68,15 @@ def show_history():
     viewed_items = generate_history(fileprocessor.get_last_viewed_files(10))
     return render_template('show_history.html', upload_items=upload_items, viewed_items=viewed_items)
 
+@app.route('/search')
+def search():
+    filename = request.args.get('filename')
+    if filename is None:
+        return render_template('search.html', filename="")
+
+
+    return render_template('search.html', filename=filename)
+
 @app.route('/<data_key>')
 def view_file(data_key):
     blob_info = fileprocessor.get_file(data_key)
@@ -87,4 +96,4 @@ def page_not_found(e):
 
 @app.errorhandler(413)
 def file_too_large(e):
-    return "Only files below 16mb are allowed."
+    return "Only files below 30mb are allowed."

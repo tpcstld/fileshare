@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Search - FileShare</title>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='foundation.min.css') }}">
+    </head>
+    <body>
+        <div class="row">
+            <div class="small-12 columns text-center">
+                <h1>Search</h1>
+            </div>
+        </div>
+        <form>
+            <div class="row">
+                <div class="small-12 columns text-center">
+                    <input type="text" name="filename" placeholder="Filename" value="{{ filename }}">
+                </div>
+            </div>
+            <div class="row">
+                <div class="small-12 columns text-center">
+                    <button>Search</button>
+                <div>
+            </div>
+        </form>
+        <script src="{{ url_for('static', filename='jquery-2.1.1.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='foundation.min.js') }}"></script>
+    </body>
+</html>
