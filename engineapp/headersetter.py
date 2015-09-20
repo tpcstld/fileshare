@@ -8,4 +8,3 @@ def set_content_disposition(blob_info):
         return content_disposition
 
     return "attachment; " + content_disposition
-        
