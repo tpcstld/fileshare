@@ -35,7 +35,7 @@ def handle_upload():
     header = filedata.headers['Content-Type']
     parsed_header = parse_options_header(header)
     blob_key = parsed_header[1]['blob-key']
-    
+
     # check for the file size
     # delete the blob and return an error if it's too big.
     blob = fileprocessor.get_blob(blob_key)
@@ -48,7 +48,7 @@ def handle_upload():
     data_id = fileprocessor.save_file(blob_key)
 
     # return a formatted url of the location of the file
-    address = request.host_url + data_id 
+    address = request.host_url + data_id
     return json.dumps({'data_id': data_id})
 
 def generate_history(file_keys):
